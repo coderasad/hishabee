@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Author;
 
 use App\Http\Controllers\Controller;
+use App\Models\like;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class DashboardController extends Controller
 {
     public function index(){
         $post = Post::orderBy('id', 'DESC')->simplePaginate(5);
-        $user = User::orderBy('id', 'DESC')->simplePaginate(5);
+        $user = User::orderBy('id', 'DESC')->simplePaginate(5);  
+
         return view('pages.index', compact('post','user'));
     }
 
@@ -29,7 +31,6 @@ class DashboardController extends Controller
      */
     public function editProfileImg(Request $request){
         $image = $request->file('img');
-        // dd($image);
         if($image){
             $image_name = 'user_image_'.rand(100,999).'.'.strtolower($image->getClientOriginalExtension());
             if($request->old_img){
@@ -59,7 +60,7 @@ class DashboardController extends Controller
         $user->phone = $request->phone;
         $user->occupation = $request->occupation;
         $user->save();
-        return redirect()->back();
+        return redirect()->route('author.home');
     }
 
     /**
@@ -82,6 +83,35 @@ class DashboardController extends Controller
             
         ];
         return response()->json($data);
+    }
+
+    /**
+     * Store likes
+     */
+    public function likeStore(Request $request)
+    {
+        $like = $request->like;
+        $post_id = $request->post_id;
+        $likeShow = DB::table('likes')
+                    ->select('likes.id as lid')
+                    ->join('users', 'users.id', 'likes.user_id')
+                    ->join('posts', 'posts.id', 'likes.post_id')
+                    ->where('likes.post_id', $post_id)
+                    ->first();
+        // $likeShow = like::where('post_id', $post_id)->where('like', $like)->first();
+        // dd ($likeShow->lid);
+        if($likeShow){
+            DB::table('likes')
+                ->where('id',$likeShow->lid)
+                ->update(['like'=>$like]);
+        }else{
+            $like = new like();
+            $like->like = $request->like;
+            $like->post_id = $request->post_id;
+            $like->user_id = Auth::user()->id;
+            $like->save(); 
+        }
+        
     }
 
 }

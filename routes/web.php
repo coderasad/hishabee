@@ -23,6 +23,7 @@ Route::group(['as'=>'admin.','prefix' => 'admin','namespace'=>'Admin', 'middlewa
 // Author Route 
 Route::group(['as'=>'author.','namespace'=>'Author','middleware'=>['auth','author']], function () {	
     Route::get('/','DashboardController@index')->name('home');	
+    Route::post('like','DashboardController@likeStore')->name('like');	
     Route::get('edit-profile','DashboardController@editProfile');	
     Route::post('edit-profile-img','DashboardController@editProfileImg');						
     Route::post('edit-profile','DashboardController@editProfileUser')->name('edit-profile');						

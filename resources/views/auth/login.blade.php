@@ -24,6 +24,7 @@
 
                             <div class="form-group">
                                 <label class="mb-1">Email</label>
+                                <label class="mb-1 float-right">asad@gmail.com</label>
                                 <div class="position-relative icon-form-control">
                                     <input type="email" name="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" >
                                     <i class="feather-user position-absolute"></i>
@@ -38,7 +39,7 @@
                             <div class="form-group">
                                 <label class="mb-1">Password</label>
                                 <div class="position-relative icon-form-control">
-                                    <input type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="rootauthor">
+                                    <input type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="asad@gmail.com">
                                     <i class="feather-unlock position-absolute"></i>
                                     @if ($errors->has('password'))
                                         <span class="invalid-feedback" role="alert">

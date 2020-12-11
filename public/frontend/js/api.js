@@ -106,7 +106,23 @@
   })
   
   $(".emojiArea span").click(function(){
-    
+    var like = $(this).attr('class');   
+    var post_id = $(this).attr('id');  
+    var form_action = $("#likeStore").attr("action");
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      type: 'POST',
+      url: form_action,
+      data: {
+        like: like,
+        post_id: post_id,
+      },
+      success: function (data) {
+        console.log(data)
+      }
+    })
   })
 
 })(jQuery); // End of use post api
