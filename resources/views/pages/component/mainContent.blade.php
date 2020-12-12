@@ -71,7 +71,6 @@
                 <a href="#" class="mr-3 text-secondary ar_like_count">
                     <i class="mr-2 like_count">0</i>Like
                 </a>                
-                <div class="d-none" id='likeStore' action="{{route('author.like')}}"></div>
             </div>
         </div>
         @endforeach

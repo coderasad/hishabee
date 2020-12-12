@@ -24,6 +24,9 @@
                         </div>
                         <div class="font-weight-bold">
                             <div class="text-truncate">${data.uname}</div>
+                            <div class="small text-gray-500">
+                                ${data.occupation}
+                            </div>
                         </div>
                         <span class="ml-auto small">
                           ${data.p_time}
@@ -34,10 +37,19 @@
                           ${data.post}
                         </p>
                     </div>
-                    <div class="p-3 border-bottom osahan-post-footer">
-                        <a href="#" class="mr-3 text-secondary"><i class="feather-heart text-danger"></i> 16</a>
-                        <a href="#" class="mr-3 text-secondary"><i class="feather-message-square"></i> 8</a>
-                        <a href="#" class="mr-3 text-secondary"><i class="feather-share-2"></i> 2</a>
+                    <div class="p-3 border-bottom osahan-post-footer overflow-hidden"> 
+                        <a href="#" class="text-secondary ar_like ar_like_${data.p_id}">
+                            <i class="feather-thumbs-up mr-2"></i>Like
+                        </a>
+                        <a href="#" class="mr-3 pl-3 text-secondary emojiArea">
+                            <span class="emj_like" id="${data.p_id}">👍🏻</span>
+                            <span class="emj_heard" id="${data.p_id}">💖</span>
+                            <span class="emj_love" id="${data.p_id}">😍</span>
+                            <span class="emj_cry" id="${data.p_id}">😭</span>
+                        </a>
+                        <a href="#" class="mr-3 text-secondary ar_like_count">
+                            <i class="mr-2 like_count">0</i>Like
+                        </a> 
                     </div>
                   </div>
                 `
@@ -84,37 +96,40 @@
   })
 
   // emoji change 
-  $(".emj_like").click(function(e){
+  $("body").on("click", ".emj_like", function (e) {
     e.preventDefault();
     var id = $(this).attr('id');
     $(".ar_like_"+id).html(` <span class="mr-2">👍🏻</span>Like`)
   })
-  $(".emj_heard").click(function(e){
+
+  $("body").on("click", ".emj_heard", function (e) {
     e.preventDefault();
     var id = $(this).attr('id');
     $(".ar_like_"+id).html(` <span class="mr-2">💖</span>Heart`)
   })
-  $(".emj_love").click(function(e){
+  
+  $("body").on("click", ".emj_love", function (e) {
     e.preventDefault();
     var id = $(this).attr('id');
     $(".ar_like_"+id).html(` <span class="mr-2">😍</span>Love`)
   })
-  $(".emj_cry").click(function(e){
+  
+  $("body").on("click", ".emj_cry", function (e) {
     e.preventDefault();
     var id = $(this).attr('id');
     $(".ar_like_"+id).html(` <span class="mr-2">😭</span>Cry`)
   })
   
-  $(".emojiArea span").click(function(){
+  
+  $("body").on("click", ".emojiArea span", function (event) {
     var like = $(this).attr('class');   
     var post_id = $(this).attr('id');  
-    var form_action = $("#likeStore").attr("action");
     $.ajax({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       type: 'POST',
-      url: form_action,
+      url: 'like',
       data: {
         like: like,
         post_id: post_id,

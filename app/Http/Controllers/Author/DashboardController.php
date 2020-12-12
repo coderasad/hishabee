@@ -78,9 +78,10 @@ class DashboardController extends Controller
         $data = [
             'post' => $request->postVal,
             'uname' => Auth::user()->name,
+            'occupation' => Auth::user()->occupation,
             'pic' => $img,
             'p_time' => $lastPost->created_at->diffForHumans(),
-            
+            'p_id' => $lastPost->id            
         ];
         return response()->json($data);
     }
@@ -98,8 +99,6 @@ class DashboardController extends Controller
                     ->join('posts', 'posts.id', 'likes.post_id')
                     ->where('likes.post_id', $post_id)
                     ->first();
-        // $likeShow = like::where('post_id', $post_id)->where('like', $like)->first();
-        // dd ($likeShow->lid);
         if($likeShow){
             DB::table('likes')
                 ->where('id',$likeShow->lid)
