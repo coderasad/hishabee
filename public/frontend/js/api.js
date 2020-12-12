@@ -43,12 +43,12 @@
                         </a>
                         <a href="#" class="mr-3 pl-3 text-secondary emojiArea">
                             <span class="emj_like" id="${data.p_id}">👍🏻</span>
-                            <span class="emj_heard" id="${data.p_id}">💖</span>
+                            <span class="emj_heart" id="${data.p_id}">💖</span>
                             <span class="emj_love" id="${data.p_id}">😍</span>
                             <span class="emj_cry" id="${data.p_id}">😭</span>
                         </a>
-                        <a href="#" class="mr-3 text-secondary ar_like_count">
-                            <i class="mr-2 like_count">0</i>Like
+                        <a href="#" class="mr-3 text-secondary ar_like_count_${data.p_id} ar_like_count">
+                            
                         </a> 
                     </div>
                   </div>
@@ -63,6 +63,7 @@
     }
   })
 
+  // Enter key up 
   var input = $('.postSubmit');
   $(".post").keydown(function (e) {
     if (e.keyCode == 13) {
@@ -102,25 +103,25 @@
     $(".ar_like_"+id).html(` <span class="mr-2">👍🏻</span>Like`)
   })
 
-  $("body").on("click", ".emj_heard", function (e) {
+  $("body").on("click", ".emj_heart", function (e) {
     e.preventDefault();
     var id = $(this).attr('id');
-    $(".ar_like_"+id).html(` <span class="mr-2">💖</span>Heart`)
+    $(".ar_like_"+id).html(` <span class="mr-2">💖</span>Like`)
   })
   
   $("body").on("click", ".emj_love", function (e) {
     e.preventDefault();
     var id = $(this).attr('id');
-    $(".ar_like_"+id).html(` <span class="mr-2">😍</span>Love`)
+    $(".ar_like_"+id).html(` <span class="mr-2">😍</span>Like`)
   })
   
   $("body").on("click", ".emj_cry", function (e) {
     e.preventDefault();
     var id = $(this).attr('id');
-    $(".ar_like_"+id).html(` <span class="mr-2">😭</span>Cry`)
+    $(".ar_like_"+id).html(` <span class="mr-2">😭</span>Like`)
   })
   
-  
+  // like store 
   $("body").on("click", ".emojiArea span", function (event) {
     var like = $(this).attr('class');   
     var post_id = $(this).attr('id');  
@@ -135,7 +136,7 @@
         post_id: post_id,
       },
       success: function (data) {
-        console.log(data)
+        $(".ar_like_count_"+post_id).html(`<span class="mr-2 like_count">${data.countLike}</span>Like`)
       }
     })
   })

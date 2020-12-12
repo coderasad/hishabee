@@ -759,7 +759,7 @@ a.showImg img{
     bottom: 0;
 }
 .emj_like:hover,
-.emj_heard:hover,
+.emj_heart:hover,
 .emj_love:hover,
 .emj_cry:hover
 {
@@ -773,7 +773,7 @@ a.showImg img{
 .emj_like {
     transition: all .3s;
 }
-.emj_heard {
+.emj_heart {
     transition: all .6s;
 }
 .emj_love {

@@ -40,17 +40,17 @@
         <div class="box shadow-sm border rounded bg-white mb-3 osahan-post">
             <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
                 <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="{{asset('public/frontend/img/user/'.$data->users->img)}}" alt="" />
+                    <img class="rounded-circle" src="{{asset('public/frontend/img/user/'.$data->img)}}" alt="" />
                     <div class="status-indicator bg-success"></div>
                 </div>
                 <div class="font-weight-bold">
-                    <div class="text-truncate">{{$data->users->name}}</div>
+                    <div class="text-truncate">{{$data->name}}</div>
                     <div class="small text-gray-500">
-                        {{$data->users->occupation}}
+                        {{$data->occupation}}
                     </div>
                 </div>
                 <span class="ml-auto small">
-                    {{ $data->created_at->diffForHumans()}}
+                    {{ \Carbon\Carbon::parse($data->time)->diffForHumans() }}
                 </span>
             </div>
             <div class="p-3 border-bottom osahan-post-body">
@@ -59,18 +59,34 @@
                 </p>
             </div>
             <div class="p-3 border-bottom osahan-post-footer overflow-hidden">
-                <a href="#" class="text-secondary ar_like ar_like_{{$data->id}}">
-                    <i class="feather-thumbs-up mr-2"></i>Like
+                <a href="#" class="text-secondary ar_like ar_like_{{$data->id}}">                   
+                    @if ($data->like == 'emj_like')                       
+                        <span>{{$emj_like}} Like</span>
+                    @elseif ($data->like == 'emj_heart')                       
+                        <span>{{$emj_heart}} Like</span>
+                    @elseif ($data->like == 'emj_love')                       
+                        <span>{{$emj_love}} Like</span>
+                    @elseif ($data->like == 'emj_cry')                       
+                        <span>{{$emj_cry}} Like</span>
+                    @else                        
+                        <i class="feather-thumbs-up mr-2"></i> {{$data->like}} Like
+                    @endif                    
                 </a>
                 <a href="#" class="mr-3 pl-3 text-secondary emojiArea">
-                    <span class="emj_like" id="{{$data->id}}">👍🏻</span>
-                    <span class="emj_heard" id="{{$data->id}}">💖</span>
-                    <span class="emj_love" id="{{$data->id}}">😍</span>
-                    <span class="emj_cry" id="{{$data->id}}">😭</span>
+                    <span class="emj_like" id="{{$data->id}}">{{$emj_like}}</span>
+                    <span class="emj_heart" id="{{$data->id}}">{{$emj_heart}}</span>
+                    <span class="emj_love" id="{{$data->id}}">{{$emj_love}}</span>
+                    <span class="emj_cry" id="{{$data->id}}">{{$emj_cry}}</span>
                 </a>
-                <a href="#" class="mr-3 text-secondary ar_like_count">
-                    <i class="mr-2 like_count">0</i>Like
-                </a>                
+                <div class="mr-3 text-secondary ar_like_count ar_like_count_{{$data->id}} text-success">
+                    <span class="mr-2 like_count">
+                        @foreach ($count as $cdata)
+                            @if ($cdata->pid == $data->id)
+                                {{$cdata->countLike}} Like
+                            @endif                            
+                        @endforeach    
+                    </span>
+                </div>                
             </div>
         </div>
         @endforeach

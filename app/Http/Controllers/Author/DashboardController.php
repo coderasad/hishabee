@@ -13,10 +13,30 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index(){
-        $post = Post::orderBy('id', 'DESC')->simplePaginate(5);
-        $user = User::orderBy('id', 'DESC')->simplePaginate(5);  
-
-        return view('pages.index', compact('post','user'));
+        $data['post'] = DB::table('posts')
+                ->select('posts.*','posts.created_at as time', 'likes.like', 'users.name as name', 'users.img as img', 'users.occupation as occupation')
+                ->leftjoin('likes', function($join){
+                    $join->on('posts.id', '=', 'likes.post_id');
+                    $join->where('likes.user_id', Auth::user()->id );
+                }) 
+                ->leftjoin('users', 'users.id', 'posts.user_id') 
+                ->orderBy('posts.id', 'DESC')
+                ->simplePaginate(5);
+        
+        // like count 
+        $data['count'] = DB::table('likes')
+                ->select("posts.id as pid", DB::raw("COUNT(likes.post_id) as countLike"))
+                ->leftjoin('posts', 'posts.id', 'likes.post_id' )
+                ->groupBy('posts.id')->get();
+        // all user 
+        $data['user'] = User::where('id', '!=', Auth::user()->id)->orderBy('id', 'DESC')->simplePaginate(5); 
+        
+        // emoji 
+        $data ['emj_like'] = '👍🏻';
+        $data ['emj_heart'] = '💖';
+        $data ['emj_love'] = '😍';
+        $data ['emj_cry'] = '😭';
+        return view('pages.index')->with($data);
     }
 
     /**
@@ -93,11 +113,12 @@ class DashboardController extends Controller
     {
         $like = $request->like;
         $post_id = $request->post_id;
+
         $likeShow = DB::table('likes')
                     ->select('likes.id as lid')
-                    ->join('users', 'users.id', 'likes.user_id')
                     ->join('posts', 'posts.id', 'likes.post_id')
                     ->where('likes.post_id', $post_id)
+                    ->where('likes.user_id', Auth::user()->id)
                     ->first();
         if($likeShow){
             DB::table('likes')
@@ -110,7 +131,11 @@ class DashboardController extends Controller
             $like->user_id = Auth::user()->id;
             $like->save(); 
         }
-        
+        $countLike = DB::table('likes')
+        ->select(DB::raw("COUNT(likes.post_id) as countLike"))
+        ->where('likes.post_id', $post_id )
+        ->first();
+        return response()->json($countLike);        
     }
 
 }

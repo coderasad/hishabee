@@ -15,7 +15,6 @@ class ApiController extends Controller
             ->join('users', 'users.id', 'posts.user_id')
             ->select('posts.post', 'users.name')
             ->get();     
-        
-        return response()->json($data);
+        return response()->json($data, $status=200, $headers=[], $options=JSON_PRETTY_PRINT);
     }
 }
