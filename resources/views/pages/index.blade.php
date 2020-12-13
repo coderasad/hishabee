@@ -4,19 +4,17 @@
 @endsection
 
 @section('content')
-
-@include ('pages.component.navBar')
 <div class="py-4">
   <div class="container">
       <div class="row">
         {{-- Main Content --}}
-        @include ('pages.component.mainContent')
+        @include ('pages.component.index.mainContent')
         
         {{-- left side bar  --}}
-        @include ('pages.component.leftSideBar')
+        @include ('pages.component.index.leftSideBar')
           
         {{-- Right side bar  --}}
-        @include ('pages.component.rightSideBar')
+        @include ('pages.component.index.rightSideBar')
       </div>
   </div>
 </div>

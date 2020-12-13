@@ -4,7 +4,6 @@
 @endsection
 
 @section('content')
-
 <div class="bg-white">
     <div class="container-login100" style="background-image: url('{{asset('public/frontend/img/img-01.jpg')}}');">
         <div class="container">

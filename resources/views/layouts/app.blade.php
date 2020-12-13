@@ -17,7 +17,8 @@
 </head>
 
 <body>
-  @yield('content')
+	@include ('layouts.navBar')
+  	@yield('content')
 
 	<script src="{{asset('public/frontend/vendor/jquery/jquery.min.js')}}" type="9ef55dd56cdb8d002ab758dc-text/javascript"></script>
 	<script src="{{asset('public/frontend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}" type="9ef55dd56cdb8d002ab758dc-text/javascript"></script>

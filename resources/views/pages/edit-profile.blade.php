@@ -4,14 +4,12 @@
 @endsection
 
 @section('content')
-
-@include ('pages.component.navBar')
 <div class="py-4">
   <div class="container">
       <div class="row">
         {{-- edit profile Content --}}
-        @include ('pages.component.editProfileLeftComponent')
-        @include ('pages.component.editProfileMainComponent')
+        @include ('pages.component.edit-profile.leftComponent')
+        @include ('pages.component.edit-profile.rightComponent')
       </div>
   </div>
 </div>

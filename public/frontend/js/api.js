@@ -141,4 +141,19 @@
     })
   })
 
+  // Image show instant start============  
+  function readURLa(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#img_show').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+  }
+  $("#imgInp").change(function () {
+      readURLa(this);
+  });
+
 })(jQuery); // End of use post api
