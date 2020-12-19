@@ -13,8 +13,8 @@
                     </div>
                     <div class="font-weight-bold mr-2">
                         <div class="text-truncate">
-                            {{-- <a class="text-white" href="{{ route('author.user.'.$data->name)}}">{{$data->name}}</a> --}}
-                            <a class="text-white" href="">{{$data->name}}</a>
+                            <a class="text-white" href="{{ url($data->name.'_'.$data->id)}}">{{$data->name}}</a>
+                            {{-- <a class="text-white" href="">{{$data->name}}</a> --}}
                         </div>
                         <div class="small text-gray-500">{{$data->occupation}}</div>
                     </div>

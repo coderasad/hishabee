@@ -28,10 +28,9 @@ Route::group(['as'=>'author.','namespace'=>'Author','middleware'=>['auth','autho
     Route::post('edit-profile-img','DashboardController@editProfileImg');						
     Route::post('edit-profile','DashboardController@editProfileUser')->name('edit-profile');		
 
-    // Route::get('{name}','DashboardController@editProfileUser')->name('user');		
+    Route::get('{name}_{id}','DashboardController@profile');	
 
-    Route::post('postget','DashboardController@postStatus');						
-    					
+    Route::post('postget','DashboardController@postStatus');										
 });											
 
 											

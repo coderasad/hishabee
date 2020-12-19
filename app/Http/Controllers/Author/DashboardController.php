@@ -138,4 +138,35 @@ class DashboardController extends Controller
         return response()->json($countLike);        
     }
 
+    // single user 
+    public function profile($name, $id){
+        $data['post'] = DB::table('posts')
+                        ->select('posts.*','posts.created_at as time', 'likes.like', 'users.name as name', 'users.img as img', 'users.occupation as occupation')
+                        ->leftjoin('likes', function($join){
+                            $join->on('posts.id', '=', 'likes.post_id');
+                            $join->where('likes.user_id', '=', Auth::user()->id);
+                        }) 
+                        ->leftjoin('users', 'users.id', 'posts.user_id') 
+                        ->where ('posts.user_id', $id)
+                        ->orderBy('posts.id', 'DESC')
+                        ->simplePaginate(5);
+
+        // like count 
+        $data['count'] = DB::table('likes')
+                        ->select("posts.id as pid", DB::raw("COUNT(likes.post_id) as countLike"))
+                        ->leftjoin('posts', 'posts.id', 'likes.post_id' )
+                        ->groupBy('posts.id')
+                        ->get();
+
+        // all user 
+        $data['user'] = User::where('id', '!=', $id)->orderBy('id', 'DESC')->simplePaginate(5); 
+        $data['single_user'] = User::where('id', $id)->first(); 
+        // emoji 
+        $data ['emj_like'] = '👍🏻';
+        $data ['emj_heart'] = '💖';
+        $data ['emj_love'] = '😍';
+        $data ['emj_cry'] = '😭';
+        $data ['name'] = $name;
+        return view('pages.profile')->with($data);
+    }
 }
